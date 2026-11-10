@@ -17,7 +17,7 @@ defineProps({
 });
 
 const form = useForm({
-    email: '',
+    username: '',
     password: '',
     remember: false,
 });
@@ -30,71 +30,62 @@ const submit = () => {
 </script>
 
 <template>
-    <GuestLayout>
-        <Head title="Log in" />
+    <div class="container min-vh-100 d-flex align-items-center justify-content-center">
+        <div class="row w-100 justify-content-center">
+            <div class="col-12 col-sm-10 col-md-7 col-lg-5 col-xl-4">
 
-        <div v-if="status" class="mb-4 text-sm font-medium text-green-600">
-            {{ status }}
+                <div class="card">
+                    <div class="card-body">
+                        <div id="auth-left">
+                            <h1 class="auth-title text-center mb-2">
+                                Connexion
+                            </h1>
+
+                            <p class="auth-subtitle text-center mb-5">
+                                Connectez-vous à votre espace d'administration.
+                            </p>
+
+                            <form @submit.prevent="submit">
+                                
+                                <div class="form-group position-relative has-icon-left mb-4">
+                                    <input type="text" class="form-control form-control-xl"
+                                        :class="{ 'is-invalid': form.errors.username }" placeholder="Nom d'utilisateur"
+                                        v-model="form.username" autocomplete="username" required autofocus>
+
+                                    <div class="form-control-icon">
+                                        <i class="bi bi-person"></i>
+                                    </div>
+
+                                    <div v-if="form.errors.username" class="invalid-feedback">
+                                        {{ form.errors.username }}
+                                    </div>
+                                </div>
+
+                                <div class="form-group position-relative has-icon-left mb-4">
+                                    <input type="password" class="form-control form-control-xl"
+                                        :class="{ 'is-invalid': form.errors.password }" placeholder="Mot de passe"
+                                        v-model="form.password" autocomplete="current-password" required>
+
+                                    <div class="form-control-icon">
+                                        <i class="bi bi-shield-lock"></i>
+                                    </div>
+
+                                    <div v-if="form.errors.password" class="invalid-feedback">
+                                        {{ form.errors.password }}
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary btn-block btn-lg shadow-lg mt-4"
+                                    :disabled="form.processing">
+                                    {{ form.processing ? 'Connexion...' : 'Valider' }}
+                                </button>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
-
-        <form @submit.prevent="submit">
-            <div>
-                <InputLabel for="email" value="Email" />
-
-                <TextInput
-                    id="email"
-                    type="email"
-                    class="mt-1 block w-full"
-                    v-model="form.email"
-                    required
-                    autofocus
-                    autocomplete="username"
-                />
-
-                <InputError class="mt-2" :message="form.errors.email" />
-            </div>
-
-            <div class="mt-4">
-                <InputLabel for="password" value="Password" />
-
-                <TextInput
-                    id="password"
-                    type="password"
-                    class="mt-1 block w-full"
-                    v-model="form.password"
-                    required
-                    autocomplete="current-password"
-                />
-
-                <InputError class="mt-2" :message="form.errors.password" />
-            </div>
-
-            <div class="mt-4 block">
-                <label class="flex items-center">
-                    <Checkbox name="remember" v-model:checked="form.remember" />
-                    <span class="ms-2 text-sm text-gray-600"
-                        >Remember me</span
-                    >
-                </label>
-            </div>
-
-            <div class="mt-4 flex items-center justify-end">
-                <Link
-                    v-if="canResetPassword"
-                    :href="route('password.request')"
-                    class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                >
-                    Forgot your password?
-                </Link>
-
-                <PrimaryButton
-                    class="ms-4"
-                    :class="{ 'opacity-25': form.processing }"
-                    :disabled="form.processing"
-                >
-                    Log in
-                </PrimaryButton>
-            </div>
-        </form>
-    </GuestLayout>
+    </div>
 </template>

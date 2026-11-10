@@ -1,18 +1,13 @@
 import './bootstrap';
 import '../css/app.css';
-import { ZiggyVue } from '../../vendor/tightenco/ziggy';
-// Bootstrap 5
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap';
 
-// Vue et Inertia
 import { createApp, h } from 'vue';
 import { createInertiaApp } from '@inertiajs/vue3';
-
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
+import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 
 createInertiaApp({
-    title: (title) => `${title} - Mon Projet`,
+    title: (title) => `${title} - valeur_inactive`,
 
     resolve: (name) => resolvePageComponent(
         `./Pages/${name}.vue`,
@@ -20,16 +15,16 @@ createInertiaApp({
     ),
 
     setup({ el, App, props, plugin }) {
-        createApp({
+        const vueApp = createApp({
             render: () => h(App, props),
-        })
-            .use(plugin)
-            .use(ZiggyVue)
-            .mount(el);
+        });
+
+        vueApp.use(plugin);
+        vueApp.use(ZiggyVue);
+        vueApp.mount(el);
     },
 
     progress: {
-        color: '#198754',
+        color: '#435ebe',
     },
 });
-
