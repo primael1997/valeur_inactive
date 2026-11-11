@@ -1,32 +1,28 @@
 <script setup>
-import Checkbox from '@/Components/Checkbox.vue';
-import GuestLayout from '@/Layouts/GuestLayout.vue';
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
 
-defineProps({
-    canResetPassword: {
-        type: Boolean,
-    },
-    status: {
-        type: String,
-    },
-});
+    import { Head, Link, useForm } from '@inertiajs/vue3';
 
-const form = useForm({
-    username: '',
-    password: '',
-    remember: false,
-});
-
-const submit = () => {
-    form.post(route('login'), {
-        onFinish: () => form.reset('password'),
+    defineProps({
+        canResetPassword: {
+            type: Boolean,
+        },
+        status: {
+            type: String,
+        },
     });
-};
+
+    const form = useForm({
+        username: '',
+        password: '',
+        remember: false,
+    });
+
+    const submit = () => {
+        form.post(route('login'), {
+            onFinish: () => form.reset('password'),
+        });
+    };
+    
 </script>
 
 <template>
@@ -35,6 +31,7 @@ const submit = () => {
             <div class="col-12 col-sm-10 col-md-7 col-lg-5 col-xl-4">
 
                 <div class="card">
+
                     <div class="card-body">
                         <div id="auth-left">
                             <h1 class="auth-title text-center mb-2">
@@ -46,7 +43,7 @@ const submit = () => {
                             </p>
 
                             <form @submit.prevent="submit">
-                                
+
                                 <div class="form-group position-relative has-icon-left mb-4">
                                     <input type="text" class="form-control form-control-xl"
                                         :class="{ 'is-invalid': form.errors.username }" placeholder="Nom d'utilisateur"
@@ -83,6 +80,7 @@ const submit = () => {
                             </form>
                         </div>
                     </div>
+
                 </div>
 
             </div>

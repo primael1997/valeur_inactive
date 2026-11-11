@@ -13,6 +13,14 @@
     const page = usePage();
 
     const isActive = (url) => page.url === url || page.url.startsWith(url + '/');
+
+    const can = (permission) => {
+        return page.props.auth?.permissions?.includes(permission) ?? false;
+    };
+
+    const canAny = (permissions) => {
+        return permissions.some(permission => can(permission));
+    };
 </script>
 
 <template>
@@ -57,7 +65,7 @@
 
                     <li class="sidebar-title">Gestion du stock</li>
 
-                    <li class="sidebar-item"
+                    <li class="sidebar-item" v-if="can('products.view')"
                         :class="{ active: isActive('/admin/products') }">
                         <Link class="sidebar-link">
                             <i class="bi bi-box-seam"></i>
@@ -65,7 +73,7 @@
                         </Link>
                     </li>
 
-                    <li class="sidebar-item"
+                    <li class="sidebar-item" v-if="can('supplies.view')"
                         :class="{ active: isActive('/admin/supplies') }">
                         <Link class="sidebar-link">
                             <i class="bi bi-truck"></i>
@@ -73,7 +81,7 @@
                         </Link>
                     </li>
 
-                    <li class="sidebar-item"
+                    <li class="sidebar-item" v-if="can('inventory.view')"
                         :class="{ active: isActive('/admin/inventory') }">
                         <Link class="sidebar-link">
                             <i class="bi bi-clipboard-check"></i>
@@ -83,7 +91,7 @@
 
                     <li class="sidebar-title">Opérations</li>
 
-                    <li class="sidebar-item"
+                    <li class="sidebar-item" v-if="can('sales.daily_report')"
                         :class="{ active: isActive('/admin/daily-sales') }">
                         <Link class="sidebar-link">
                             <i class="bi bi-receipt"></i>
@@ -91,7 +99,7 @@
                         </Link>
                     </li>
 
-                    <li class="sidebar-item"
+                    <li class="sidebar-item" v-if="canAny(['corrections.create', 'corrections.process'])"
                         :class="{ active: isActive('/admin/correction-requests') }">
                         <Link class="sidebar-link">
                             <i class="bi bi-arrow-left-right"></i>
@@ -99,9 +107,9 @@
                         </Link>
                     </li>
 
-                    <li class="sidebar-title">Administration</li>
+                    <li class="sidebar-title" v-if="can('users.manage')">Administration</li>
 
-                    <li class="sidebar-item"
+                    <li class="sidebar-item" v-if="can('users.manage')"
                         :class="{ active: isActive('/admin/users') }">
                         <Link class="sidebar-link">
                             <i class="bi bi-people"></i>
@@ -109,7 +117,7 @@
                         </Link>
                     </li>
 
-                    <li class="sidebar-item"
+                    <li class="sidebar-item" v-if="can('users.manage')"
                         :class="{ active: isActive('/admin/audit') }">
                         <Link class="sidebar-link">
                             <i class="bi bi-journal-text"></i>

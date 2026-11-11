@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('role',['admin','regis','caisse'])->default('caisse');
             $table->integer('status')->default(1);
             $table->rememberToken();
             $table->timestamps();
